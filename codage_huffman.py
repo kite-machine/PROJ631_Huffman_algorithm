@@ -48,12 +48,12 @@ def creer_arbre(liste_frequence):
         arbres.remove(t1)
         t2= arbres[frequence_min(arbres)]
         arbres.remove(t2)
-        new_t=Arbre(node(t1.get_root().get_frequence()+t2.get_root().get_frequence()))
+        new_t=Arbre(node(t1.get_root().get_frequence()+t2.get_root().get_frequence(),None,t1.get_root(),t2.get_root()))
         arbres.append(new_t)
     return arbres[0]
 
 test = creation_alphabet("textesimple.txt")
-print (creer_arbre(test))
+print (creer_arbre(test).display_depth())
 
 
 
