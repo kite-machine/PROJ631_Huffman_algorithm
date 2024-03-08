@@ -1,3 +1,4 @@
+from collections import *
 def creation_alphabet(nom_fichier):
     frequence_caractère = {}
     with open(nom_fichier, 'r') as file:
@@ -8,9 +9,10 @@ def creation_alphabet(nom_fichier):
             else:
                 frequence_caractère[char]=1
     file.close()
-    print (sorted(frequence_caractère.items()))
+    frequence_caractère = OrderedDict(sorted(frequence_caractère.items(), key=lambda t:t[0]))
+    frequence_caractère = OrderedDict(sorted(frequence_caractère.items(), key=lambda t:t[1]))
     return(frequence_caractère)
         
 
 
-print(creation_alphabet("textesimple.txt"))
+print(creation_alphabet("test/textesimple.txt"))
