@@ -1,5 +1,6 @@
 from collections import OrderedDict
 from classe_arbre import *
+from bitarray import bitarray
 
 def creation_alphabet(nom_fichier):
     '''
@@ -7,7 +8,7 @@ def creation_alphabet(nom_fichier):
     input : string
     return : list de tuple
     '''
-    nom_fichier ="test/"+nom_fichier
+    nom_fichier ="test/"+nom_fichier+".txt"
     frequence_caractère = {}
     # Ouvre le fichier spécifié en mode lecture ('r') dans un bloc with, assurant sa fermeture automatique après usage.
     with open(nom_fichier, 'r') as file:
@@ -59,19 +60,23 @@ def code_caracteres(arbre):
     return dic_code
 
 def encodage(nom_fichier,dic_code):
-    nom_fichier_code=nom_fichier+"_code.txt"
+    nom_fichier_code=nom_fichier+"_comp.bin"
     nom_fichier ="test/"+nom_fichier+".txt"
+    res = bitarray()
     with open(nom_fichier, 'r') as lecteur:
-        with open(nom_fichier_code, 'w') as ecriture:
-            texte = lecteur.read()
-            for char in texte:
-                ecriture.write(dic_code[char])
+        texte = lecteur.read()
+        for char in texte:
+            res.extend(dic_code[char])
+    with open(nom_fichier_code, 'wb') as ecriture:
+        res.tofile(ecriture)
 
 
 
-test = creation_alphabet("textesimple.txt")
-dic_test = code_caracteres(creer_arbre(test))
-encodage("textesimple",dic_test)
+if __name__ == "__main__":
+    fichier="textesimple"
+    test = creation_alphabet(fichier)
+    dic_test = code_caracteres(creer_arbre(test))
+    encodage(fichier,dic_test)
 
 
 
