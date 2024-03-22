@@ -1,6 +1,7 @@
 from collections import OrderedDict
 from classe_arbre import *
 from bitarray import bitarray
+import os
 
 def creation_alphabet(nom_fichier):
     '''
@@ -27,6 +28,13 @@ def creation_alphabet(nom_fichier):
     # Trie à nouveau le dictionnaire par ordre croissant des valeurs (fréquences).
     frequence_caractère = sorted(frequence_caractère.items(), key=lambda t: t[1])
     return frequence_caractère
+
+def alphabet_to_fichier(nom_fichier):
+    liste = creation_alphabet(nom_fichier)
+    with open(nom_fichier + "_freq.txt", 'w') as ecriture:
+        ecriture.write(str(len(liste))+"\n")
+        for frequence,car in liste:
+            ecriture.write(str(car)+" "+str(frequence)+"\n")
 
 
 def frequence_min(arbres):
@@ -70,13 +78,23 @@ def encodage(nom_fichier,dic_code):
     with open(nom_fichier_code, 'wb') as ecriture:
         res.tofile(ecriture)
 
+def taux_compression(nom_fichier):
+    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+fichier+"_comp.bin")
+    init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+fichier+".txt")
+    return("le taux de compression pour le fichier : ",fichier," est de ", 1-new_taille/init_taille)
 
+def Huffman(nom_fichier):
+    alphabet = creation_alphabet(nom_fichier)
+    arbre = creer_arbre(alphabet)
+    dico = code_caracteres(arbre)
+    encodage(nom_fichier,dico)
+    print(taux_compression(nom_fichier))
+    alphabet_to_fichier(nom_fichier)
 
 if __name__ == "__main__":
-    fichier="textesimple"
-    test = creation_alphabet(fichier)
-    dic_test = code_caracteres(creer_arbre(test))
-    encodage(fichier,dic_test)
+    fichiers = ["textesimple","alice","extraitalice"]
+    for fichier in fichiers: 
+        Huffman(fichier)
 
 
 
