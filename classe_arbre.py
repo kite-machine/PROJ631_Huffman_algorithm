@@ -14,18 +14,18 @@ class Arbre:
           primitive retournant une liste de Rtree où la racine et l'un des fils de self
           """
           res=[]
-          for noeud in self.get_root().get_children() :
-               res.append(Arbre(noeud))
+          if self.get_root().get_gauche() :
+               res.append([Arbre(self.get_root().get_gauche()),"0"])
+          if self.get_root().get_droite() :
+               res.append([Arbre(self.get_root().get_droite()),"1"])
           return res
 
-    def display_depth(self):
-          """
-          primitive affichant l'arborescence en utilisant le parcours de profondeur
-          """
-          print(self.get_root().get_char())
+    def code_arbre(self,code,dict_code):
+          if self.get_root().get_char():
+               dict_code[self.get_root().get_char()] = code
           if self.get_root().get_children() != None:
-               for arbre in self.get_sub_tree() :
-                    arbre.display_depth()
+               for arbre,temp in self.get_sub_tree() :
+                    arbre.code_arbre(code+temp,dict_code)
 
 class node:
     """
@@ -58,3 +58,5 @@ class node:
     
     def get_droite(self):
          return self.droite
+    
+

@@ -52,8 +52,26 @@ def creer_arbre(liste_frequence):
         arbres.append(new_t)
     return arbres[0]
 
+
+def code_caracteres(arbre):
+    dic_code={}
+    arbre.code_arbre("",dic_code)
+    return dic_code
+
+def encodage(nom_fichier,dic_code):
+    nom_fichier_code=nom_fichier+"_code.txt"
+    nom_fichier ="test/"+nom_fichier+".txt"
+    with open(nom_fichier, 'r') as lecteur:
+        with open(nom_fichier_code, 'w') as ecriture:
+            texte = lecteur.read()
+            for char in texte:
+                ecriture.write(dic_code[char])
+
+
+
 test = creation_alphabet("textesimple.txt")
-print (creer_arbre(test).display_depth())
+dic_test = code_caracteres(creer_arbre(test))
+encodage("textesimple",dic_test)
 
 
 
