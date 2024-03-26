@@ -1,6 +1,6 @@
-Bienvenue sur le merveilleux README de mon projet sur le codage d'Huffman !
+# Bienvenue sur le merveilleux README de mon projet sur le codage d'Huffman !
 
-Liste des imports :
+## Liste des imports :
 ```python
 from collections import OrderedDict
 from bitarray import bitarray
@@ -13,7 +13,7 @@ Profiter !
 
 *ENGLISH VERSION*
 
-Welcome to my wonderful README on my project on Huffman encoding !
+## Welcome to my wonderful README on my project on Huffman encoding !
 
 Import needed :
 from collections import OrderedDict
