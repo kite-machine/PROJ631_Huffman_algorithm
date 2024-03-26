@@ -9,7 +9,7 @@ def creation_alphabet(nom_fichier):
     input : string
     return : list de tuple
     '''
-    nom_fichier ="test/"+nom_fichier+".txt"
+    nom_fichier ="RENDU FICHIER/"+nom_fichier+".txt"
     frequence_caractère = {}
     # Ouvre le fichier spécifié en mode lecture ('r') dans un bloc with, assurant sa fermeture automatique après usage.
     with open(nom_fichier, 'r') as file:
@@ -69,7 +69,7 @@ def code_caracteres(arbre):
 
 def encodage(nom_fichier,dic_code):
     nom_fichier_code=nom_fichier+"_comp.bin"
-    nom_fichier ="test/"+nom_fichier+".txt"
+    nom_fichier ="RENDU FICHIER/"+nom_fichier+".txt"
     res = bitarray()
     with open(nom_fichier, 'r') as lecteur:
         texte = lecteur.read()
@@ -83,16 +83,31 @@ def taux_compression(nom_fichier):
     init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+fichier+".txt")
     return("le taux de compression pour le fichier : ",fichier," est de ", 1-new_taille/init_taille)
 
+def moyenne_codage(dic_code,alphabet,nom_fichier):
+    somme = 0
+    for code in dic_code.items():
+        somme += len(code[1])
+    print("la longueur moyenne des caractères de ",nom_fichier," est : ",somme/len(dic_code), "bits")
+    somme = 0
+    occurence = 0 
+    for code in dic_code.items():
+        for temp in alphabet:
+            if temp[0] == code[0]:
+                somme +=  temp[1]*len(code[1])
+                occurence += temp[1]
+    print("la longueur moyenne pondéré des caractères de ",nom_fichier," est : ",somme/occurence, "bits")
+
 def Huffman(nom_fichier):
     alphabet = creation_alphabet(nom_fichier)
     arbre = creer_arbre(alphabet)
     dico = code_caracteres(arbre)
+    moyenne_codage(dico,alphabet,nom_fichier)
     encodage(nom_fichier,dico)
     print(taux_compression(nom_fichier))
     alphabet_to_fichier(nom_fichier)
 
 if __name__ == "__main__":
-    fichiers = ["textesimple","alice","extraitalice"]
+    fichiers = ["textesimple","extraitalice","alice"]
     for fichier in fichiers: 
         Huffman(fichier)
 
