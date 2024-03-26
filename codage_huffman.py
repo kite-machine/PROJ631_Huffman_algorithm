@@ -34,10 +34,10 @@ def alphabet_to_fichier(nom_fichier):
     Fonction qui permet de d'écrire un fichier frequence qui contient les caratères suivies de leur frequence
     '''
     liste = creation_alphabet(nom_fichier)
-    with open(nom_fichier + "_freq.txt", 'w') as ecriture:
+    with open("RENDU FICHIER/"+nom_fichier + "_freq.txt", 'w') as ecriture:
         ecriture.write(str(len(liste))+"\n")
         for frequence,car in liste:
-            ecriture.write(str(car)+" "+str(frequence)+"\n")
+            ecriture.write(str(frequence)+" "+str(car)+"\n")
 
 def frequence_min(arbres):
     '''
@@ -85,7 +85,7 @@ def encodage(nom_fichier,dic_code):
     '''
     Fonction qui permet d'écrire le nouveau texte codé à l'aide d'un dic_code et du nom_fichier
     '''
-    nom_fichier_code=nom_fichier+"_comp.bin"
+    nom_fichier_code="RENDU FICHIER/"+nom_fichier+"_comp.bin"
     nom_fichier ="RENDU FICHIER/"+nom_fichier+".txt"
     res = bitarray()
     with open(nom_fichier, 'r') as lecteur:
@@ -99,8 +99,8 @@ def taux_compression(nom_fichier):
     '''
     Fonction qui permet de comparer la taille du fichier codé et la taille du fichier d'origine
     '''
-    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+nom_fichier+"_comp.bin")
-    init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+nom_fichier+".txt")
+    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+"_comp.bin")
+    init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+".txt")
     return("le taux de compression pour le fichier : ",nom_fichier," est de ", 1-new_taille/init_taille)
 
 def moyenne_codage(dic_code,alphabet,nom_fichier):
@@ -120,7 +120,33 @@ def moyenne_codage(dic_code,alphabet,nom_fichier):
                 occurence += temp[1]
     print("la longueur moyenne pondéré des caractères de ",nom_fichier," est : ",somme/occurence, "bits")
 
-def Huffman(nom_fichier):
+def find(dictionary, binaire):
+    for car, code in dictionary.items():
+        if code == binaire:
+            return car
+    return None
+
+def decodage(dico_code,nom_fichier):
+    nom_fichier_decode = "RENDU FICHIER/"+nom_fichier+"_decode.txt"
+    nom_fichier = "RENDU FICHIER/"+nom_fichier+"_comp.bin"
+    res=[]
+    with open(nom_fichier, "rb") as file:
+        binary_data = file.read()
+        binary_list = []
+        for byte in binary_data:
+            binary_list.extend([int(bit) for bit in '{:08b}'.format(byte)])
+    temp=""
+    for bin in binary_list:
+        temp = temp+str(bin)
+        if find(dico_code,temp):
+            res.append(find(dico_code,temp))
+            temp=""
+    with open(nom_fichier_decode, 'w') as ecriture:
+        for car in res:
+            ecriture.write(str(car))
+        
+
+def Huffman_code(nom_fichier):
     '''
     Fonction finale qui regroupe toutes les précédentes, elle permet de :
     - ecrire le texte codé
@@ -138,24 +164,29 @@ def Huffman(nom_fichier):
 
 def fichier_to_alphabet(nom_fichier):
     res = []
-    nom_fichier = "TEST/"+nom_fichier+"_freq.txt"
+    nom_fichier = "RENDU FICHIER/"+nom_fichier+"_freq.txt"
     with open(nom_fichier, 'r') as file:
         texte = file.readlines()
         for indice in range (1,len(texte)):
-            res.append([texte[indice][0],texte[indice][2]])
+            res.append((texte[indice][0],int(texte[indice][2])))
     return res
+
+def Huffman_decode(nom_fichier):
+    alphabet = fichier_to_alphabet(nom_fichier)
+    arbre = creer_arbre(alphabet)
+    dico = code_caracteres(arbre)
+    decodage(dico,nom_fichier)
 
 
 if __name__ == "__main__":
     '''
     Fonction main qui execute huffman pour tous les textes
     '''
-    '''
     fichiers = ["textesimple","extraitalice","alice"]
     for fichier in fichiers: 
-        Huffman(fichier)
-    '''
-    print(fichier_to_alphabet("exemple"))
-
+        Huffman_code(fichier)
+        Huffman_decode(fichier)
+    
+    
 
 
