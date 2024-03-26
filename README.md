@@ -21,6 +21,9 @@ from bitarray import bitarray
 import os
 
 How to use :
+```bash
+python main.py
+```
 Put in the RENDU FINAL folder the file you want to encode.
 Add in file list in the main the name of you file without the extension.
 Enjoy !
