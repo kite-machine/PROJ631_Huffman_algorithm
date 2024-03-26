@@ -1,10 +1,11 @@
 Bienvenue sur le merveilleux README de mon projet sur le codage d'Huffman !
 
 Liste des imports :
+```python
 from collections import OrderedDict
 from bitarray import bitarray
 import os
-
+```
 Utilisation :
 Deposer dans le dossier RENDU FINAL le texte que vous voulez encoder.
 Ajouter dans la liste des fichiers du main le nom de votre fichier sans extension.
