@@ -164,11 +164,19 @@ def Huffman_code(nom_fichier):
 
 def fichier_to_alphabet(nom_fichier):
     res = []
+    retour_chariot = False
     nom_fichier = "RENDU FICHIER/"+nom_fichier+"_freq.txt"
     with open(nom_fichier, 'r') as file:
         texte = file.readlines()
         for indice in range (1,len(texte)):
-            res.append((texte[indice][0],int(texte[indice][2])))
+            if texte[indice][0] == "\n":
+                retour_chariot=True
+            else :
+                if retour_chariot:
+                    res.append(("\n",int(texte[indice][1:])))
+                    retour_chariot =False
+                else:
+                    res.append((texte[indice][0],int(texte[indice][2:])))
     return res
 
 def Huffman_decode(nom_fichier):
