@@ -10,7 +10,7 @@ Utilisation :
 ```bash
 python PROJ631_1/codage_huffman.py
 ```
-Deposer dans le dossier RENDU FINAL le texte que vous voulez encoder.\n
+Deposer dans le dossier RENDU FINAL le texte que vous voulez encoder.<br>\n
 Ajouter dans la liste des fichiers du main le nom de votre fichier sans extension.\n
 Profiter !
 
