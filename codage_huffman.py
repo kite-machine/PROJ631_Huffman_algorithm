@@ -39,7 +39,6 @@ def alphabet_to_fichier(nom_fichier):
         for frequence,car in liste:
             ecriture.write(str(car)+" "+str(frequence)+"\n")
 
-
 def frequence_min(arbres):
     '''
     Fonction qui permet de trouver l'indice du caractère le moins fréquent dans une liste d'arbres
@@ -137,13 +136,26 @@ def Huffman(nom_fichier):
     print(taux_compression(nom_fichier))
     alphabet_to_fichier(nom_fichier)
 
+def fichier_to_alphabet(nom_fichier):
+    res = []
+    nom_fichier = "TEST/"+nom_fichier+"_freq.txt"
+    with open(nom_fichier, 'r') as file:
+        texte = file.readlines()
+        for indice in range (1,len(texte)):
+            res.append([texte[indice][0],texte[indice][2]])
+    return res
+
+
 if __name__ == "__main__":
     '''
     Fonction main qui execute huffman pour tous les textes
     '''
+    '''
     fichiers = ["textesimple","extraitalice","alice"]
     for fichier in fichiers: 
         Huffman(fichier)
+    '''
+    print(fichier_to_alphabet("exemple"))
 
 
 
