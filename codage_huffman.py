@@ -30,6 +30,9 @@ def creation_alphabet(nom_fichier):
     return frequence_caractère
 
 def alphabet_to_fichier(nom_fichier):
+    '''
+    Fonction qui permet de d'écrire un fichier frequence qui contient les caratères suivies de leur frequence
+    '''
     liste = creation_alphabet(nom_fichier)
     with open(nom_fichier + "_freq.txt", 'w') as ecriture:
         ecriture.write(str(len(liste))+"\n")
@@ -38,6 +41,9 @@ def alphabet_to_fichier(nom_fichier):
 
 
 def frequence_min(arbres):
+    '''
+    Fonction qui permet de trouver l'indice du caractère le moins fréquent dans une liste d'arbres
+    '''
     indice = 0
     frequence = arbres[0].get_root().get_frequence()
     for i in range (len(arbres)):
@@ -48,10 +54,15 @@ def frequence_min(arbres):
 
 
 def creer_arbre(liste_frequence):
+    '''
+    Fonction qui permet de créer l'arbre de frequence permettant le codage d'huffman
+    '''
     arbres=[]
+    #transforme la liste de liste en liste d'abres
     for element in liste_frequence:
         arbre=Arbre(node(element[1],element[0]))
         arbres.append(arbre)
+    #applique l'algo de huffman qui consiste à traiter les arbres avec la plus petite frequence en premier 
     while len(arbres) > 1:
         t1= arbres[frequence_min(arbres)]
         arbres.remove(t1)
@@ -63,11 +74,18 @@ def creer_arbre(liste_frequence):
 
 
 def code_caracteres(arbre):
+    '''
+    Fonction qui permet de créer le dictionnaire contenant les caractères et leur code associé depuis un arbre de frequence
+    Cette fonction initialise la récurence 
+    '''
     dic_code={}
     arbre.code_arbre("",dic_code)
     return dic_code
 
 def encodage(nom_fichier,dic_code):
+    '''
+    Fonction qui permet d'écrire le nouveau texte codé à l'aide d'un dic_code et du nom_fichier
+    '''
     nom_fichier_code=nom_fichier+"_comp.bin"
     nom_fichier ="RENDU FICHIER/"+nom_fichier+".txt"
     res = bitarray()
@@ -79,11 +97,17 @@ def encodage(nom_fichier,dic_code):
         res.tofile(ecriture)
 
 def taux_compression(nom_fichier):
-    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+fichier+"_comp.bin")
-    init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+fichier+".txt")
-    return("le taux de compression pour le fichier : ",fichier," est de ", 1-new_taille/init_taille)
+    '''
+    Fonction qui permet de comparer la taille du fichier codé et la taille du fichier d'origine
+    '''
+    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+nom_fichier+"_comp.bin")
+    init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/test/"+nom_fichier+".txt")
+    return("le taux de compression pour le fichier : ",nom_fichier," est de ", 1-new_taille/init_taille)
 
 def moyenne_codage(dic_code,alphabet,nom_fichier):
+    '''
+    Fonction qui permet d'afficher la longueur moyenne et la longueur moyenne pondéré des caractères codés
+    '''
     somme = 0
     for code in dic_code.items():
         somme += len(code[1])
@@ -98,6 +122,13 @@ def moyenne_codage(dic_code,alphabet,nom_fichier):
     print("la longueur moyenne pondéré des caractères de ",nom_fichier," est : ",somme/occurence, "bits")
 
 def Huffman(nom_fichier):
+    '''
+    Fonction finale qui regroupe toutes les précédentes, elle permet de :
+    - ecrire le texte codé
+    - afficher le taux de compression
+    - afficher la longueur moyenne des caractères codés
+    - ecrire un fichier de frequence
+    '''
     alphabet = creation_alphabet(nom_fichier)
     arbre = creer_arbre(alphabet)
     dico = code_caracteres(arbre)
@@ -107,6 +138,9 @@ def Huffman(nom_fichier):
     alphabet_to_fichier(nom_fichier)
 
 if __name__ == "__main__":
+    '''
+    Fonction main qui execute huffman pour tous les textes
+    '''
     fichiers = ["textesimple","extraitalice","alice"]
     for fichier in fichiers: 
         Huffman(fichier)

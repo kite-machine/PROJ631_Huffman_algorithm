@@ -2,6 +2,7 @@
 class Arbre:
     """
     Classe arbre
+    Son constructeur prend en paramètre un noeud racine
     """
     def __init__(self,root=None):
         self.root=root
@@ -12,6 +13,7 @@ class Arbre:
     def get_sub_tree(self):
           """
           primitive retournant une liste de Rtree où la racine et l'un des fils de self
+          Ajoute aussi le caractère 0 ou 1 respectivement gauche droite pour faciliter la créeation du dictionnaire des codes
           """
           res=[]
           if self.get_root().get_gauche() :
@@ -21,6 +23,9 @@ class Arbre:
           return res
 
     def code_arbre(self,code,dict_code):
+          '''
+          Primitive récursive qui permet de créer le dictionnaire avec le code de chaque caractère
+          '''
           if self.get_root().get_char():
                dict_code[self.get_root().get_char()] = code
           if self.get_root().get_children() != None:
@@ -30,7 +35,7 @@ class Arbre:
 class node:
     """
     Classe node en utilisant la structure de donnée recursive
-    Son constructeur prend en parametre une valeur et 0,1,2 node
+    Son constructeur prend en parametre une frequence, un caractère (optionel) et 0,1,2 node fils 
     """
     def __init__(self,frequence,char = None, gauche = None ,droite = None):
         self.char = char
