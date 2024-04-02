@@ -101,7 +101,7 @@ def taux_compression(nom_fichier):
     '''
     new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+"_comp.bin")
     init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+".txt")
-    return("le taux de compression pour le fichier : ",nom_fichier," est de ", 1-new_taille/init_taille)
+    return("le taux de compression pour le fichier : "+nom_fichier+" est de "+str(1-new_taille/init_taille))
 
 def moyenne_codage(dic_code,alphabet,nom_fichier):
     '''
