@@ -1,6 +1,5 @@
 from collections import OrderedDict
-from classe_arbre import *
-from bitarray import bitarray
+from classe_arbre import arbre, node
 import os
 
 def creation_alphabet(nom_fichier):
