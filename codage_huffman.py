@@ -1,39 +1,41 @@
 from collections import OrderedDict
-from classe_arbre import arbre, node
-import os
+from classe_arbre import Arbre, node
 
+import os
+result_folder = "RENDU FICHIER/"
+comp_extension = "_comp.bin"
 def creation_alphabet(nom_fichier):
     '''
     cette fonction retourne une liste trié selon la frequence et le code ascii des caractère d'un texte donnée en parametre
     input : string
     return : list de tuple
     '''
-    nom_fichier ="RENDU FICHIER/"+nom_fichier+".txt"
-    frequence_caractère = {}
+    nom_fichier =result_folder+nom_fichier+".txt"
+    frequence_caractere = {}
     # Ouvre le fichier spécifié en mode lecture ('r') dans un bloc with, assurant sa fermeture automatique après usage.
     with open(nom_fichier, 'r') as file:
         # Lit tout le contenu du fichier et le stocke dans la variable texte.
         texte = file.read()
         for char in texte:
             # Vérifie si le caractère est déjà présent dans le dictionnaire des fréquences.
-            if char in frequence_caractère.keys():
+            if char in frequence_caractere.keys():
                 # Si le caractère existe, incrémente sa fréquence de 1.
-                frequence_caractère[char] = frequence_caractère.get(char) + 1
+                frequence_caractere[char] = frequence_caractere.get(char) + 1
             else:
                 # Sinon, initialise sa fréquence à 1.
-                frequence_caractère[char] = 1
+                frequence_caractere[char] = 1
     # Trie le dictionnaire par ordre alphabétique des clés en utilisant sorted() et crée un objet OrderedDict.
-    frequence_caractère = OrderedDict(sorted(frequence_caractère.items(), key=lambda t: t[0]))
+    frequence_caractere = OrderedDict(sorted(frequence_caractere.items(), key=lambda t: t[0]))
     # Trie à nouveau le dictionnaire par ordre croissant des valeurs (fréquences).
-    frequence_caractère = sorted(frequence_caractère.items(), key=lambda t: t[1])
-    return frequence_caractère
+    frequence_caractere = sorted(frequence_caractere.items(), key=lambda t: t[1])
+    return frequence_caractere
 
 def alphabet_to_fichier(nom_fichier):
     '''
     Fonction qui permet de d'écrire un fichier frequence qui contient les caratères suivies de leur frequence
     '''
     liste = creation_alphabet(nom_fichier)
-    with open("RENDU FICHIER/"+nom_fichier + "_freq.txt", 'w') as ecriture:
+    with open(result_folder+nom_fichier + "_freq.txt", 'w') as ecriture:
         ecriture.write(str(len(liste))+"\n")
         for frequence,car in liste:
             ecriture.write(str(frequence)+" "+str(car)+"\n")
@@ -84,9 +86,9 @@ def encodage(nom_fichier,dic_code):
     '''
     Fonction qui permet d'écrire le nouveau texte codé à l'aide d'un dic_code et du nom_fichier
     '''
-    nom_fichier_code="RENDU FICHIER/"+nom_fichier+"_comp.bin"
-    nom_fichier ="RENDU FICHIER/"+nom_fichier+".txt"
-    res = bitarray()
+    nom_fichier_code=result_folder+nom_fichier+comp_extension
+    nom_fichier =result_folder+nom_fichier+".txt"
+    res = bytearray()
     with open(nom_fichier, 'r') as lecteur:
         texte = lecteur.read()
         for char in texte:
@@ -98,7 +100,7 @@ def taux_compression(nom_fichier):
     '''
     Fonction qui permet de comparer la taille du fichier codé et la taille du fichier d'origine
     '''
-    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+"_comp.bin")
+    new_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+comp_extension)
     init_taille = os.path.getsize("c:/Users/eleme/OneDrive/Bureau/PROJ631_1/RENDU FICHIER/"+nom_fichier+".txt")
     return("le taux de compression pour le fichier : "+nom_fichier+" est de "+str(1-new_taille/init_taille))
 
@@ -126,8 +128,8 @@ def find(dictionary, binaire):
     return None
 
 def decodage(dico_code,nom_fichier):
-    nom_fichier_decode = "RENDU FICHIER/"+nom_fichier+"_decode.txt"
-    nom_fichier = "RENDU FICHIER/"+nom_fichier+"_comp.bin"
+    nom_fichier_decode = result_folder+nom_fichier+"_decode.txt"
+    nom_fichier = result_folder+nom_fichier+comp_extension
     res=[]
     with open(nom_fichier, "rb") as file:
         binary_data = file.read()
@@ -145,7 +147,7 @@ def decodage(dico_code,nom_fichier):
             ecriture.write(str(car))
         
 
-def Huffman_code(nom_fichier):
+def huffman_code(nom_fichier):
     '''
     Fonction finale qui regroupe toutes les précédentes, elle permet de :
     - ecrire le texte codé
@@ -164,7 +166,7 @@ def Huffman_code(nom_fichier):
 def fichier_to_alphabet(nom_fichier):
     res = []
     retour_chariot = False
-    nom_fichier = "RENDU FICHIER/"+nom_fichier+"_freq.txt"
+    nom_fichier = result_folder+nom_fichier+"_freq.txt"
     with open(nom_fichier, 'r') as file:
         texte = file.readlines()
         for indice in range (1,len(texte)):
@@ -178,7 +180,7 @@ def fichier_to_alphabet(nom_fichier):
                     res.append((texte[indice][0],int(texte[indice][2:])))
     return res
 
-def Huffman_decode(nom_fichier):
+def huffman_decode(nom_fichier):
     alphabet = fichier_to_alphabet(nom_fichier)
     arbre = creer_arbre(alphabet)
     dico = code_caracteres(arbre)
@@ -191,8 +193,8 @@ if __name__ == "__main__":
     '''
     fichiers = ["textesimple","extraitalice","alice"]
     for fichier in fichiers: 
-        Huffman_code(fichier)
-        Huffman_decode(fichier)
+        huffman_code(fichier)
+        huffman_decode(fichier)
     
     
 
